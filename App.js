@@ -1,20 +1,44 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useColorScheme } from "react-native"
+import { lightTheme, darkTheme } from "./utils/styles/theme"
+import { NavigationContainer } from "@react-navigation/native"
+import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import HomeScreen from "./screens/HomeScreen"
+import OnboardingScreen from "./screens/OnboardingScreen"
+import SignUpScreen from "./screens/SignUpScreen"
+import LoginScreen from "./screens/LoginScreen"
+
+const Stack = createNativeStackNavigator()
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const scheme = useColorScheme()
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  return (
+    <NavigationContainer theme={scheme === "dark" ? darkTheme : lightTheme}>
+      <Stack.Navigator initialRouteName={"Onboarding"}>
+        <Stack.Screen
+          navigationKey="Home"
+          options={{ headerShown: false }}
+          name="Home"
+          component={HomeScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="Onboarding"
+          component={OnboardingScreen}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false
+          }}
+          name="SignUp"
+          component={SignUpScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="Login"
+          component={LoginScreen}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}
